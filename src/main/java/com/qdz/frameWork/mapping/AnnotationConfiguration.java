@@ -1,6 +1,7 @@
 package com.qdz.frameWork.mapping;
 
 
+import com.qdz.frameWork.annotation.QdzAutowired;
 import com.qdz.frameWork.annotation.QdzComponentScan;
 import com.qdz.frameWork.annotation.QdzController;
 import com.qdz.frameWork.annotation.QdzService;
@@ -166,12 +167,13 @@ public class AnnotationConfiguration {
      * @param list
      */
     static void AutoDi (Map<String, Object> concurrentHashMap,List<Class> list) throws Exception{
-        lists.stream().forEach(o-> {
+        list.stream().forEach(o-> {
             Object obj = null;
             String name = "";
             Field[] fields = o.getDeclaredFields();
+            //if(isExistAnno(o))
             Arrays.stream(fields).forEach(f->{
-                if(isExistAnno(f)){
+                if(isAutoWire(f)){
 
                 }
 
@@ -190,5 +192,9 @@ public class AnnotationConfiguration {
         }
         return aaa;
     }
+    static boolean isAutoWire(Field f){
+        return f.isAnnotationPresent(QdzAutowired.class);
+    }
+
 
 }
