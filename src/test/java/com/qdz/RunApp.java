@@ -9,7 +9,6 @@ public class RunApp {
     public static void main(String[] args) {
         QdzSpringApplicationContext.run(RunApp.class,args);
         GoodsController goodsController = (GoodsController)QdzSpringApplicationContext.getBean("asd");
-
         goodsController.say(null);
 
     }

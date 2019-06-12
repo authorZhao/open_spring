@@ -17,7 +17,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -100,9 +99,6 @@ public class AnnotationConfiguration {
                     clazz = Class.forName(pathName);
                     classList.add(clazz);
                 }
-                //clazz = Class.forName("com.qdz.test.controller.GoodsController");
-                //URL url = AnnotationConfiguration.class.getClassLoader().getResource(file.getPath());
-                //System.out.println(url);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -150,9 +146,9 @@ public class AnnotationConfiguration {
                     e.printStackTrace();
                 }
                 if(StringUtils.isBlank(name)){
-                    String key = o.getName().substring(o.getName().lastIndexOf(".")+1);
+                    String key = clazz.getName().substring(clazz.getName().lastIndexOf(".")+1);
                     name = (new StringBuilder()).append(Character.toLowerCase(key.charAt(0))).append(key.substring(1)).toString();
-                    System.out.println(key);
+                    logger.info("key==  "+name);
                 }
                 if(obj!=null)concurrentHashMap.put(name,obj);
                 logger.info(clazz.getName()+"装配完毕");
@@ -163,26 +159,37 @@ public class AnnotationConfiguration {
 
     /**
      * 自动注入
+     * @param basePackageMappingToClass
      * @param concurrentHashMap
-     * @param list
      */
-    static void AutoDi (Map<String, Object> concurrentHashMap,List<Class> list) throws Exception{
-        list.stream().forEach(o-> {
-            Object obj = null;
-            String name = "";
-            Field[] fields = o.getDeclaredFields();
-            //if(isExistAnno(o))
-            Arrays.stream(fields).forEach(f->{
-                if(isAutoWire(f)){
-
+    public static void AutoDi(List<Class<?>> basePackageMappingToClass, Map<String, Object> concurrentHashMap) {
+        if(concurrentHashMap.isEmpty())return;
+        for (Map.Entry<String,Object> entry:concurrentHashMap.entrySet()) {
+            Field[] fields = entry.getValue().getClass().getDeclaredFields();
+            for (Field f:fields ) {
+                if(!f.isAnnotationPresent(QdzAutowired.class))continue;
+                QdzAutowired qdzAutowired = f.getAnnotation(QdzAutowired.class);
+                String beanName = qdzAutowired.value();
+                if(StringUtils.isBlank(beanName)){
+                    String key = f.getType().getName().substring(f.getType().getName().lastIndexOf(".")+1);
+                    beanName = (new StringBuilder()).append(Character.toLowerCase(key.charAt(0))).append(key.substring(1)).toString();
                 }
-
-
-            });
-
-
-
-        });
+                if(!f.canAccess(entry.getValue())){
+                    f.setAccessible(true);
+                }
+                try {
+                    Object obj1 = entry.getValue();
+                    Object obj2 = concurrentHashMap.get(beanName);
+                    /*if(obj2==null){//根据名称找不到，直接在根据类型找
+                        obj2 = getBean(f.getType());
+                    }*/
+                    f.set(obj1,obj2);
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                    continue;
+                }
+            }
+        }
 
     }
     static boolean isExistAnno(Field f){
@@ -195,6 +202,7 @@ public class AnnotationConfiguration {
     static boolean isAutoWire(Field f){
         return f.isAnnotationPresent(QdzAutowired.class);
     }
+
 
 
 }

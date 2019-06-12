@@ -33,44 +33,9 @@ public class QdzSpringApplicationContext {
         basePackageMappingToClass = AnnotationConfiguration.getClasses(packageNames);
         concurrentHashMap = AnnotationConfiguration.getObjects(basePackageMappingToClass);
         //自动注入
-        //AutoDi(basePackageMappingToClass);
+        AnnotationConfiguration.AutoDi(basePackageMappingToClass,concurrentHashMap);
     }
 
-    /*private static void AutoDi(List<Class<?>> basePackageMappingToClass) {
-        for (Class o:basePackageMappingToClass){
-            Field[] fields = o.getDeclaredFields();
-            String oName = "";
-
-            oName = o.getDeclaredAnnotation(QdzController.class).value();
-
-            Object obj  = getBean((oName));
-            Arrays.stream(fields).forEach(f->{
-                if(f.isAnnotationPresent(QdzAutowired.class)) {
-                    QdzAutowired qdzAutowired = f.getAnnotation(QdzAutowired.class);
-                    String keyMap = qdzAutowired.value();
-                    if(!f.canAccess(obj)){
-                        f.setAccessible(true);
-                    }
-                    try{
-                        if (StringUtils.isNotBlank(keyMap)) {
-                            f.set(obj, getBean((keyMap)));
-                        } else {
-                            f.set(obj,  getBean((f.getName())));
-                        }
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                }
-
-            });
-
-
-
-        }
-
-
-
-    }*/
 
 
 }
