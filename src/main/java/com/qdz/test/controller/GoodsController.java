@@ -13,6 +13,4 @@ public class GoodsController {
         System.out.println(goodsService.say());
     }
 
-
-
 }

@@ -192,17 +192,5 @@ public class AnnotationConfiguration {
         }
 
     }
-    static boolean isExistAnno(Field f){
-        boolean aaa = false;
-        for (Class clazz:lists) {
-            if(f.isAnnotationPresent(clazz))aaa=true;
-        }
-        return aaa;
-    }
-    static boolean isAutoWire(Field f){
-        return f.isAnnotationPresent(QdzAutowired.class);
-    }
-
-
 
 }

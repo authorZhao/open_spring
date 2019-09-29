@@ -1,18 +1,14 @@
 package com.qdz.config;
 
-import com.qdz.frameWork.annotation.QdzAutowired;
-import com.qdz.frameWork.annotation.QdzController;
 import com.qdz.frameWork.mapping.AnnotationConfiguration;
-import org.apache.commons.lang3.StringUtils;
 
-import java.lang.reflect.Field;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class QdzSpringApplicationContext {
+    //线程安全的map和list
     private static Map<String,Object> concurrentHashMap = new ConcurrentHashMap<>();
     private static List<Class<?>> basePackageMappingToClass  = new CopyOnWriteArrayList<>();
 
@@ -24,18 +20,26 @@ public class QdzSpringApplicationContext {
         return concurrentHashMap.get(name);
     }
 
-    public static void main(String[] args) {
-        QdzSpringApplicationContext applicationContext = new QdzSpringApplicationContext();
+    public static Object getBean(Class clazz){
+
+        /*concurrentHashMap.entrySet().stream().filter(m->{
+            m.getValue().getClass().equals()
+
+        })*/
+                return null;
     }
+
+
+
     public static void run(Class<?> clazz,String[] args) {
         //1.获得QdzComponentScan，得到扫描的包名集合
         List<String> packageNames = AnnotationConfiguration.getPackageNames(clazz);
+        //2.包名集合获得Class对象集合
         basePackageMappingToClass = AnnotationConfiguration.getClasses(packageNames);
+        //3.对象实例化
         concurrentHashMap = AnnotationConfiguration.getObjects(basePackageMappingToClass);
-        //自动注入
+        //4.自动注入
         AnnotationConfiguration.AutoDi(basePackageMappingToClass,concurrentHashMap);
     }
-
-
 
 }
