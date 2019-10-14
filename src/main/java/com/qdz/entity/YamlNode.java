@@ -18,8 +18,6 @@ public class YamlNode {
     //这一行是不是注释
     private boolean isNote;
 
-    //每一行的父节点
-    private YamlNode parentNode;
 
     //节点名称
     private String nodeName;
@@ -59,13 +57,6 @@ public class YamlNode {
         isNote = note;
     }
 
-    public YamlNode getParentNode() {
-        return parentNode;
-    }
-
-    public void setParentNode(YamlNode parentNode) {
-        this.parentNode = parentNode;
-    }
 
     public String getNodeName() {
         return nodeName;

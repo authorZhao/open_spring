@@ -107,7 +107,6 @@ public class ParseYmlTest {
 
         YamlNode rootNode = new YamlNode();
         rootNode.setIsNote(false);
-        rootNode.setParentNode(null);
         rootNode.setNodeName("root");
         rootNode.setStartRow(0);
         rootNode.setEndRow(stringList.size());
@@ -143,32 +142,62 @@ public class ParseYmlTest {
     private void expandChildNode(YamlNode rootNode) {
         List<String> value =  rootNode.getNodeVlue();
 
-        List<YamlNode> childNode = new ArrayList<>();
-        for (int i = rootNode.getStartRow(); i <= rootNode.getEndRow(); i++) {
-            String nodeName = value.get(i);
-            if(StringUtils.isNotBlank(nodeName)){
-                YamlNode yamlNode = new YamlNode();
-                String startStr = getStringByLevel(rootNode.getLevel());
-                if(startStr.equals("")){
-                    if(nodeName.charAt(0)!=32){
-                        yamlNode.
-                    }
-                }else{
+        for (int i = 0; i < value.size(); i++) {
+            YamlNode node = new YamlNode();
+            String row = value.get(i);
+            node.setNodeName(row);
+            node.setStartRow(i);
+            if(row.startsWith("#")){
+                node.setIsNote(true);
+            }else{
+                node.setIsNote(false);
+            }
+            setNodeLevel(node);
+            if(node.getLevel()==null||node.getLevel()!=1)continue;
+            setNodeParent(rootNode,node,value,i);
 
-                }
+        }
 
 
+        //rootNode.setChildNode(childNode);
+    }
+
+    private void setNodeParent(YamlNode rootNode, YamlNode node, List<String> value, int i) {
+
+
+        if(node.getLevel()==1){
+            List<YamlNode> yamlNodeList = rootNode.getChildNode();
+            if(yamlNodeList==null)yamlNodeList = new ArrayList<>();
+            yamlNodeList.add(node);
+            rootNode.setChildNode(yamlNodeList);
+        }else{
+           // setNodeLevel();
+
+
+
+
+        }
+
+
+    }
+
+
+    private void setNodeLevel(YamlNode node) {
+        String name = node.getNodeName();
+        int j = 0;
+        for (int i = 0; i < name.length(); i++) {
+            if(name.charAt(i)==' '){
+                j++;
+            }else{
+                return;
             }
         }
-        rootNode.setChildNode(childNode);
+        if(j%2==0){
+            node.setLevel(j/2);
+        }else {
+            node.setLevel(null);
+        }
     }
 
-    private String getStringByLevel(Integer level){
-        if(level==null||level<=0)return "";
-        StringBuffer stringBuffer = new StringBuffer();
-        for (int i = 0; i < level ; i++) {
-            stringBuffer.append(" ");
-        }
-        return stringBuffer.toString();
-    }
+
 }
