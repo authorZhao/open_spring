@@ -105,6 +105,9 @@ public class ParseYmlTest {
         String ss =  buffer.toString();
         System.out.println(stringList);
 
+
+
+
         YamlNode rootNode = new YamlNode();
         rootNode.setIsNote(false);
         rootNode.setNodeName("root");

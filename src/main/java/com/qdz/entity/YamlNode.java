@@ -18,7 +18,6 @@ public class YamlNode {
     //这一行是不是注释
     private boolean isNote;
 
-
     //节点名称
     private String nodeName;
 
@@ -56,7 +55,6 @@ public class YamlNode {
     public void setIsNote(boolean note) {
         isNote = note;
     }
-
 
     public String getNodeName() {
         return nodeName;

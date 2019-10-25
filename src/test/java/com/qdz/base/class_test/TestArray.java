@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class TestArray {
@@ -27,10 +28,11 @@ public class TestArray {
         list.add("李四");
         list.add("王五");
         list.add("ads");
-        list.add(2,"哈哈");
-        list.add(null);
-        list.add(null);
-        System.out.println(list);
+        //list.add(2,"哈哈");
+        for (int i = 0; i < list.size() ; i++) {
+            System.out.println(list.remove(i));
+        }
+        //System.out.println(list);
     }
 
 
@@ -41,8 +43,22 @@ public class TestArray {
         list.add("李四");
         list.add("王五");
         list.add("ads");
-        list.remove(1);
-        System.out.println(list);
+        for (int i = 0; i < list.size() ; i++) {
+            System.out.println(list.remove(i));
+        }
+
+        //list.remove(1);
+        //System.out.println(list);
+        Iterator<String> iterator = list.iterator();
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+            if(iterator.next().equals("李四"))iterator.remove();
+        }
+
+        while (iterator.hasNext()){
+            System.out.println(iterator.next());
+        }
+
     }
 
 }
