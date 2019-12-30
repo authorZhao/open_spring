@@ -48,6 +48,10 @@ public class ParseYmlTest {
 
         //加载流,获取yaml文件中的配置数据，然后转换为Map，
         Map obj = (Map) yaml.load(resourceAsStream);
+        Map qdz = (Map) obj.get("qdz");
+        String o = (String)qdz.get("system-name");
+        System.out.println(o);
+
         System.out.println(obj);
     }
 

@@ -2,6 +2,7 @@ package com.qdz;
 
 import java.util.Arrays;
 
+@SuppressWarnings({"ALL", "AliControlFlowStatementWithoutBraces"})
 public class ArrayUtils {
 
     /**
@@ -14,17 +15,23 @@ public class ArrayUtils {
     public static int getIndex2(int start,int i, int j, byte[] bytes){
         for (int k = start; k < bytes.length; k++) {
             if(i==bytes[k]){
-                if(j==bytes[k+1])return k;
+                if(j==bytes[k+1]) {
+                    return k;
+                }
             }
         }
         return -1;
     }
 
-    public static int getIndex3(int start,int i, int j, int h ,byte[] bytes){
+    @SuppressWarnings("AliControlFlowStatementWithoutBraces")
+    public static int getIndex3(int start, int i, int j, int h , byte[] bytes){
         for (int k = start; k < bytes.length; k++) {
             if(i==bytes[k]){
                 if(j==bytes[k+1]){
-                    if(h==bytes[k+2])return k;
+                    //noinspection AliControlFlowStatementWithoutBraces
+                    if(h==bytes[k+2]) {
+                        return k;
+                    }
                 }
             }
         }
