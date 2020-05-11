@@ -5,7 +5,21 @@ package com.qdz.entity;
  * @date 2019/12/23
  */
 public class User {
+
+    public User(String userName, Integer age, Long sex) {
+        this.userName = userName;
+        this.age = age;
+        this.sex = sex;
+    }
+
+    public User() {
+    }
+
     private String userName;
+
+    private Integer age;
+
+    private Long sex;
 
     public String getUserName() {
         return userName;
@@ -15,15 +29,19 @@ public class User {
         this.userName = userName;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userName='" + userName + '\'' +
-                '}';
+    public Integer getAge() {
+        return age;
     }
 
-    public void sqyHello() {
-        System.out.println("我系"+userName);
+    public void setAge(Integer age) {
+        this.age = age;
     }
 
+    public Long getSex() {
+        return sex;
+    }
+
+    public void setSex(Long sex) {
+        this.sex = sex;
+    }
 }

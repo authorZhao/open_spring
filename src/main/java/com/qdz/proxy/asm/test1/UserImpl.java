@@ -4,7 +4,7 @@ package com.qdz.proxy.asm.test1;
  * @author authorZhao
  * @date 2019/12/30
  */
-public class UserImpl implements User{
+/*public class UserImpl implements User{
 
     private String name;
     private Integer age;
@@ -26,4 +26,4 @@ public class UserImpl implements User{
         this.age = age;
     }
 
-}
+}*/
